@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.panfile.R;
 import com.panfile.event.BusEvent;
@@ -54,8 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick({R.id.btn_login_login})
     public void onBtnClick(View v){
         Log.e("MyTag","login click");
-        EventBus.getDefault().postSticky(new MainThreadEvent(MainThreadEvent.Type.ACT_LOGIN_2_FILES,""));
-//        clientService.login(et_name.getText().toString(),et_pass.getText().toString(),et_token.getText().toString());
+        clientService.login(et_name.getText().toString(),et_pass.getText().toString(),et_token.getText().toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -72,6 +72,10 @@ public class LoginActivity extends AppCompatActivity {
         switch (event.getType()){
             case ACT_LOGIN_2_FILES:
                 startActivity(new Intent(this,FilesAct.class));
+                break;
+            case ERR_LOGIN:
+                String msg = (String) event.getData();
+                Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
                 break;
         }
     }

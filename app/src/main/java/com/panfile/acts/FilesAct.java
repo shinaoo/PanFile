@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.panfile.R;
 import com.panfile.event.MainThreadEvent;
+import com.panfile.service.PathService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -17,12 +18,15 @@ import butterknife.OnClick;
 
 public class FilesAct extends Activity {
 
+    private PathService pathService;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_file);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+        init();
     }
 
     @Override
@@ -48,5 +52,8 @@ public class FilesAct extends Activity {
 
     }
 
+    private void init(){
+        pathService = new PathService();
+    }
 
 }

@@ -7,6 +7,8 @@ public class MainThreadEvent {
     public enum Type{
         UNKNOWN(0),
 
+        ERR_LOGIN(100),
+
         ACT_LOGIN_2_FILES(1000),
 
         ;

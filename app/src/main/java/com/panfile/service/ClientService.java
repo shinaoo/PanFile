@@ -2,9 +2,12 @@ package com.panfile.service;
 
 import android.util.Log;
 
-import com.panfile.event.BusEvent;
+import com.alibaba.fastjson.JSON;
+import com.google.gson.JsonObject;
+import com.panfile.event.MainThreadEvent;
 import com.panfile.model.network.ClientSrv;
 import com.panfile.model.network.RetrofitCls;
+import com.panfile.utils.JsonResult;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -14,26 +17,29 @@ import retrofit2.Response;
 
 public class ClientService {
 
-    private RetrofitCls retrofitCls = null;
+    private ClientSrv clientSrv;
 
     public ClientService(){
-        retrofitCls = RetrofitCls.getInstance("http://192.168.1.100:8080");
+        clientSrv = RetrofitCls.getInstance().getClientSrv();
     }
 
     public boolean login(String cName,String cPass,String cToken){
-        ClientSrv clientSrv = retrofitCls.getClientSrv();
         Call<String> call = clientSrv.login(cName,cPass,cToken);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.e("MyTag","login succ back:" + response.body());
-                EventBus.getDefault().postSticky(new BusEvent(BusEvent.Type.UNKNOWN,""));
+                Log.e("MyTag","response:" + response.body());
+                JsonResult jsonResult = JSON.parseObject(response.body(),JsonResult.class);
+                if (jsonResult.getStatus() == 200){
+                    EventBus.getDefault().postSticky(new MainThreadEvent(MainThreadEvent.Type.ACT_LOGIN_2_FILES,""));
+                }else{
+                    EventBus.getDefault().postSticky(new MainThreadEvent(MainThreadEvent.Type.ERR_LOGIN,jsonResult.getMsg()));
+                }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.e("MyTag","login faile:" + t.toString());
-                EventBus.getDefault().postSticky(new BusEvent(BusEvent.Type.UNKNOWN,""));
+                EventBus.getDefault().postSticky(new MainThreadEvent(MainThreadEvent.Type.ERR_LOGIN,t.toString()));
             }
         });
         return false;

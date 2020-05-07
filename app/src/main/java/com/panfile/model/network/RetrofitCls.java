@@ -1,23 +1,29 @@
 package com.panfile.model.network;
 
+import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
+
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitCls {
+    private String basrUrl = "http://192.168.1.99:8080";
     private  Retrofit retrofit =null;
     private static RetrofitCls retrofitCls = null;
-    public static RetrofitCls getInstance(String url){
+    public static RetrofitCls getInstance(){
         if (null == retrofitCls){
-            retrofitCls = new RetrofitCls(url);
+            retrofitCls = new RetrofitCls();
         }
         return retrofitCls;
     }
 
-    private RetrofitCls(String url){
-        retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
+    private RetrofitCls(){
+        retrofit = new Retrofit.Builder().baseUrl(basrUrl).addConverterFactory(Retrofit2ConverterFactory.create()).build();
     }
 
     public ClientSrv getClientSrv(){
         return retrofit.create(ClientSrv.class);
+    }
+
+    public PathSrv getPathSrv(){
+        return retrofit.create(PathSrv.class);
     }
 }
