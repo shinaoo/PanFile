@@ -21,7 +21,6 @@ public class ClientService {
     }
 
     public boolean login(String cName,String cPass,String cToken){
-        Log.e("MyTag","login click");
         ClientSrv clientSrv = retrofitCls.getClientSrv();
         Call<String> call = clientSrv.login(cName,cPass,cToken);
         call.enqueue(new Callback<String>() {

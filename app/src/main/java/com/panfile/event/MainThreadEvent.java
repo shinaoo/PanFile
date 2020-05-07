@@ -1,11 +1,13 @@
 package com.panfile.event;
 
 public class MainThreadEvent {
-    private BusEvent.Type type;
+    private Type type;
     private Object data;
 
     public enum Type{
         UNKNOWN(0),
+
+        ACT_LOGIN_2_FILES(1000),
 
         ;
         private int value;
@@ -26,20 +28,20 @@ public class MainThreadEvent {
         }
     }
 
-    public MainThreadEvent(BusEvent.Type type){
+    public MainThreadEvent(Type type){
         this.type = type;
     }
 
-    public MainThreadEvent(BusEvent.Type type, Object data) {
+    public MainThreadEvent(Type type, Object data) {
         this.type = type;
         this.data = data;
     }
 
-    public BusEvent.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(BusEvent.Type type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
