@@ -13,6 +13,7 @@ import com.panfile.R;
 import com.panfile.adapters.FilesAdapter;
 import com.panfile.entity.json.PanFile;
 import com.panfile.event.MainThreadEvent;
+import com.panfile.service.FileService;
 import com.panfile.service.PathService;
 import com.panfile.utils.FileChooseUtil;
 
@@ -36,6 +37,7 @@ public class FilesAct extends Activity {
     private final int REQUEST_CHOOSEFILE = 1;
 
     private PathService pathService;
+    private FileService fileService;
     private String pathCurrent = "";
 
     @BindView(R.id.rv_file_datas)
@@ -105,6 +107,7 @@ public class FilesAct extends Activity {
                     Uri uri = data.getData();
                     String path = FileChooseUtil.getInstance(this).getChooseFileResultPath(uri);
                     Log.e("MyTag","choose path:" + path);
+                    fileService.uploadFile(path);
                     break;
             }
         }
@@ -113,6 +116,7 @@ public class FilesAct extends Activity {
     private void init(){
         pathService = new PathService();
         pathService.getFiles(pathCurrent);
+        fileService = new FileService();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rv_files.setLayoutManager(linearLayoutManager);

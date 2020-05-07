@@ -1,5 +1,6 @@
 package com.panfile.acts;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,6 +79,10 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private void init_permission(Activity act){
+
     }
 
 }

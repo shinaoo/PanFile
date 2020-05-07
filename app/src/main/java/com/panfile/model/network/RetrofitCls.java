@@ -26,4 +26,8 @@ public class RetrofitCls {
     public PathSrv getPathSrv(){
         return retrofit.create(PathSrv.class);
     }
+
+    public FileSrv getFileSrv(){
+        return retrofit.create(FileSrv.class);
+    }
 }
