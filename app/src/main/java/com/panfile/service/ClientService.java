@@ -2,8 +2,11 @@ package com.panfile.service;
 
 import android.util.Log;
 
+import com.panfile.event.BusEvent;
 import com.panfile.model.network.ClientSrv;
 import com.panfile.model.network.RetrofitCls;
+
+import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,11 +28,13 @@ public class ClientService {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.e("MyTag","login succ back:" + response.body());
+                EventBus.getDefault().postSticky(new BusEvent(BusEvent.Type.UNKNOWN,""));
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e("MyTag","login faile:" + t.toString());
+                EventBus.getDefault().postSticky(new BusEvent(BusEvent.Type.UNKNOWN,""));
             }
         });
         return false;

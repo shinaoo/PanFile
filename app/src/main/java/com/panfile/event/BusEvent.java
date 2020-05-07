@@ -1,10 +1,11 @@
 package com.panfile.event;
 
 public class BusEvent {
-    private int type;
+    private Type type;
     private Object data;
 
     public enum Type{
+        UNKNOWN(0),
 
         ;
         private int value;
@@ -25,20 +26,20 @@ public class BusEvent {
         }
     }
 
-    public BusEvent(int type){
+    public BusEvent(Type type){
         this.type = type;
     }
 
-    public BusEvent(int type, Object data) {
+    public BusEvent(Type type, Object data) {
         this.type = type;
         this.data = data;
     }
 
-    public int getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
