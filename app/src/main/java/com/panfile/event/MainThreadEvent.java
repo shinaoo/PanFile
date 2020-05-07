@@ -8,8 +8,13 @@ public class MainThreadEvent {
         UNKNOWN(0),
 
         ERR_LOGIN(100),
+        ERR_GETFILES(101),
 
         ACT_LOGIN_2_FILES(1000),
+        FILES_SHOW_FILES(1001),
+        FILES_FILE_CLICK(1002),
+        FILES_FILE_LONGCLICK(1003),
+
 
         ;
         private int value;

@@ -31,10 +31,17 @@
             android:background="@mipmap/upload" />
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_file_path"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/rl_file_title"
+        android:gravity="center_vertical" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_file_datas"
-        android:layout_below="@+id/rl_file_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_file_path" />
 
 </RelativeLayout>

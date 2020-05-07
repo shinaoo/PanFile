@@ -2,7 +2,7 @@ package com.panfile.entity.json;
 
 public class PanFile {
     private String name;
-    private int type;
+    private int fileType;
 
     public String getName() {
         return name;
@@ -12,12 +12,12 @@ public class PanFile {
         this.name = name;
     }
 
-    public int getType() {
-        return type;
+    public int getFileType() {
+        return fileType;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setFileType(int fileType) {
+        this.fileType = fileType;
     }
 
     public enum Type{
