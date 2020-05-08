@@ -39,6 +39,7 @@ public class FilesAct extends Activity {
     private PathService pathService;
     private FileService fileService;
     private String pathCurrent = "";
+    private String pathSDCard = "";
 
     @BindView(R.id.rv_file_datas)
     RecyclerView rv_files;
@@ -93,6 +94,10 @@ public class FilesAct extends Activity {
                 break;
             case FILES_FILE_LONGCLICK:
                 PanFile pf2 = (PanFile) event.getData();
+                if (pf2.getFileType() == 0){
+                    return;
+                }
+                fileService.downloadFile(pf2.getName());
                 Log.e("MyTag","long click:" + pf2.getName());
                 break;
         }
@@ -116,7 +121,8 @@ public class FilesAct extends Activity {
     private void init(){
         pathService = new PathService();
         pathService.getFiles(pathCurrent);
-        fileService = new FileService();
+        pathSDCard = Environment.getExternalStorageDirectory().getAbsolutePath();
+        fileService = new FileService(pathSDCard);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rv_files.setLayoutManager(linearLayoutManager);
