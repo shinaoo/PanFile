@@ -31,17 +31,36 @@
             android:background="@mipmap/upload" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_file_path"
+    <RelativeLayout
+        android:id="@+id/rl_file_operate"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rl_file_title"
-        android:gravity="center_vertical" />
+        android:background="@color/colorPrimary"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_file_pre"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@mipmap/previous" />
+
+        <TextView
+            android:id="@+id/tv_file_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#ffffffff"
+            android:layout_toRightOf="@+id/iv_file_pre"
+            android:text="" />
+
+
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_file_datas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tv_file_path" />
+        android:layout_below="@+id/rl_file_operate" />
 
 </RelativeLayout>

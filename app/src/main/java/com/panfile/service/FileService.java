@@ -32,7 +32,7 @@ public class FileService {
 
     public void uploadFile(String uploadPath) {
         new Thread(() -> {
-            Log.e("MyTag","upload thread start");
+            Log.e("MyTag","upload thread start" + uploadPath);
             File uFile = new File(uploadPath);
             if (!uFile.exists())
                 return;
@@ -66,7 +66,9 @@ public class FileService {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response != null && response.isSuccessful()){
-                        boolean toDisk = writeResponseBodyToDisk(response.body(),path);
+                        String saveFilePath = path;
+                        saveFilePath = saveFilePath.substring(saveFilePath.lastIndexOf(File.separator),saveFilePath.length());
+                        boolean toDisk = writeResponseBodyToDisk(response.body(),saveFilePath);
                         if (toDisk){
                             Log.e("MyTag","下载成功");
                         }else{

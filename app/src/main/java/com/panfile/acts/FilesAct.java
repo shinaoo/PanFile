@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.panfile.R;
 import com.panfile.adapters.FilesAdapter;
+import com.panfile.dialog.ComfirmDlg;
 import com.panfile.entity.json.PanFile;
 import com.panfile.event.MainThreadEvent;
 import com.panfile.service.FileService;
@@ -21,13 +22,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.File;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,7 +38,7 @@ public class FilesAct extends Activity {
 
     private PathService pathService;
     private FileService fileService;
-    private String pathCurrent = "";
+    private String pathCurrent = File.separator;
     private String pathSDCard = "";
 
     @BindView(R.id.rv_file_datas)
@@ -48,6 +48,7 @@ public class FilesAct extends Activity {
     TextView tv_path;
 
     private FilesAdapter filesAdapter;
+    private ComfirmDlg comfirmDlg;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class FilesAct extends Activity {
     }
 
 
-    @OnClick({R.id.iv_file_back,R.id.iv_file_upload})
+    @OnClick({R.id.iv_file_back,R.id.iv_file_upload,R.id.iv_file_pre})
     public void onClickEvent(View v){
         switch (v.getId()){
             case R.id.iv_file_back:
@@ -73,6 +74,9 @@ public class FilesAct extends Activity {
                 break;
             case R.id.iv_file_upload:
                 openFileBrowser();
+                break;
+            case R.id.iv_file_pre:
+                goPreviousPage();
                 break;
         }
     }
@@ -88,7 +92,11 @@ public class FilesAct extends Activity {
                 if (pf1.getFileType() == 1){
                     return;
                 }
-                this.pathCurrent = String.format("%s%s%s",this.pathCurrent, File.separator,pf1.getName());
+                if (this.pathCurrent.equals(File.separator)){
+                    this.pathCurrent = String.format("%s%s",pathCurrent,pf1.getName());
+                }else{
+                    this.pathCurrent = String.format("%s%s%s",pathCurrent,File.separator,pf1.getName());
+                }
                 this.tv_path.setText(this.pathCurrent);
                 this.pathService.getFiles(this.pathCurrent);
                 break;
@@ -97,8 +105,15 @@ public class FilesAct extends Activity {
                 if (pf2.getFileType() == 0){
                     return;
                 }
-                fileService.downloadFile(pf2.getName());
-                Log.e("MyTag","long click:" + pf2.getName());
+                String filename;
+                if (this.pathCurrent.equals(File.separator)){
+                    filename = String.format("%s%s",pathCurrent,pf2.getName());
+                }else{
+                    filename = String.format("%s%s%s",pathCurrent,File.separator,pf2.getName());
+                }
+                comfirmDlg.setFilename(filename);
+                comfirmDlg.show();
+//                fileService.downloadFile(pf2.getName());
                 break;
         }
     }
@@ -130,6 +145,11 @@ public class FilesAct extends Activity {
         rv_files.setAdapter(filesAdapter);
 
         tv_path.setText(this.pathCurrent);
+
+        comfirmDlg = new ComfirmDlg.Builder(this).setConfirListener(v->{
+            fileService.downloadFile(comfirmDlg.getFilename());
+            comfirmDlg.dismiss();
+        }).build();
     }
 
     private void openFileBrowser(){
@@ -137,6 +157,16 @@ public class FilesAct extends Activity {
         intent.setType("*/*");//无类型限制
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent,REQUEST_CHOOSEFILE);
+    }
+
+    private void goPreviousPage(){
+        if ("/".equals(pathCurrent))
+            return;
+        pathCurrent=pathCurrent.substring(0,pathCurrent.lastIndexOf(File.separator));
+        if (pathCurrent.isEmpty())
+            this.pathCurrent = File.separator;
+        pathService.getFiles(this.pathCurrent);
+        tv_path.setText(this.pathCurrent);
     }
 
 

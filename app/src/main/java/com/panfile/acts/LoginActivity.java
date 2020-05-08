@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("MyTag","resultcode:" + resultCode);
         if (resultCode == RESULT_OK){
             switch (requestCode){
                 case REQUEST_WRITE_STORAGE:
@@ -73,6 +72,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void init(){
         clientService = new ClientService();
+        et_name.setText("1");
+        et_pass.setText("1");
+        et_token.setText("1");
     }
 
     @OnClick({R.id.btn_login_login})
