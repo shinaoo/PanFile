@@ -5,7 +5,7 @@ import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 import retrofit2.Retrofit;
 
 public class RetrofitCls {
-    private String basrUrl = "http://192.168.1.100:8080";
+    private String basrUrl = "http://192.168.1.99:8080";
     private  Retrofit retrofit =null;
     private static RetrofitCls retrofitCls = null;
     public static RetrofitCls getInstance(){
