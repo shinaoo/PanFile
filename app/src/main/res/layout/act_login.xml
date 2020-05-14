@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:gravity="top">
 
+    <ImageView
+        android:id="@+id/iv_login_bg"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <EditText
         android:id="@+id/et_login_name"
         android:layout_width="match_parent"
@@ -43,8 +49,8 @@
         android:layout_below="@+id/et_login_token"
         android:layout_margin="10dp"
         android:padding="10dp"
+        android:text="确认"
         android:textColor="@color/colorAccent"
-        android:textSize="20dp"
-        android:text="确认" />
+        android:textSize="20dp" />
 
 </RelativeLayout>
